@@ -1,0 +1,72 @@
+version: "3"
+services:
+  db:
+    image: postgres:13.0
+    restart: always
+    networks:
+      - result-tier
+      - back-tier
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - "./schema.sql:/docker-entrypoint-initdb.d/init.sql"
+    environment:
+      - "POSTGRES_PASSWORD=password"
+
+  redis:
+    image: redis
+    restart: always
+    expose:
+      - 6379
+    ports:
+      - "6379:6379"
+    networks:
+      - poll-tier
+      - back-tier
+
+  poll:
+    build: ./poll
+    restart: always
+    links:
+      - redis
+      - db
+    depends_on:
+      - redis
+    ports:
+      - "5000:80"
+    networks:
+      - poll-tier
+    environment:
+      - FLASK_APP=app.py
+
+  worker:
+    build: ./worker
+    restart: always
+    networks:
+      - back-tier
+    environment:
+      - REDIS_HOSTNAME=redis
+      - DB_HOSTNAME=db
+    depends_on:
+      - db
+      - redis
+
+  result:
+    build: ./result
+    restart: always
+    ports:
+      - "5001:80"
+    networks:
+      - result-tier
+    environment:
+      - PORT_RESULT=80
+      - DB_HOSTNAME_RESULT=db
+    depends_on:
+      - db
+
+volumes:
+  db-data:
+
+networks:
+  poll-tier:
+  result-tier:
+  back-tier:
