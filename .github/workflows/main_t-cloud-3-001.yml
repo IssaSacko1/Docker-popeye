@@ -1,0 +1,29 @@
+name: Deploy Application
+
+on:
+  push:
+    branches:
+      - main  # Change this to your main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      uses: actions/setup-node@v3
+      with:
+        node-version: '14'
+
+    - name: Build Docker Images
+      run: |
+        docker build -t docker-popeye-poll:latest -f poll/Dockerfile .
+        docker build -t docker-popeye-result:latest -f result/Dockerfile .
+        docker build -t docker-popeye-worker:latest -f worker/Dockerfile .
+
+
+    - name: Deploy with Docker Compose
+      run: docker-compose -f docker-compose.yml up -d
