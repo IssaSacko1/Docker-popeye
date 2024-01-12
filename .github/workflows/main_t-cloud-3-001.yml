@@ -17,18 +17,12 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v2
         with:
-          python-version: '3.x'  # Change this to your desired Python version
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r poll/requirements.txt  # Adjust if you have a requirements file
-
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: python-app
-          path: .
+          pip install -r poll/requirements.txt
 
   deploy:
     runs-on: ubuntu-latest
@@ -38,16 +32,22 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: python-app
+      - name: Set up Docker
+        uses: actions/setup-docker@v2
+
+      - name: Build and push Docker images
+        run: |
+          docker build -t t-cloud-3-001-poll:latest ./poll
+          docker build -t t-cloud-3-001-result:latest ./result
+          docker build -t t-cloud-3-001-worker:latest ./worker
 
       - name: 'Deploy to Azure Web App'
         uses: azure/webapps-deploy@v2
-        id: deploy-to-webapp
         with:
           app-name: 't-cloud-3-001'
           slot-name: 'Production'
-          package: .
+          images: |
+            t-cloud-3-001-poll:latest
+            t-cloud-3-001-result:latest
+            t-cloud-3-001-worker:latest
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_7EA61DA6EE494ECEAE21DDB99D540F0B }}
