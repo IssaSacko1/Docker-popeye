@@ -34,7 +34,9 @@ jobs:
     steps:
       - name: Set up Docker
         uses: actions/setup-docker@v2
-
+        with:
+          docker-version: '20.10.7'
+          
       - name: Build and push Docker images
         run: |
           docker build -t t-cloud-3-001-poll:latest ./poll
