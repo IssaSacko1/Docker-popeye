@@ -22,7 +22,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        run: terraform plan -auto-approve -out=tfplan
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan

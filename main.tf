@@ -39,10 +39,6 @@ variable "tags" {
   }
 }
 
-variable "global_prefix" {
-  description = "Unique identifer for ressurce naming"
-  type        = string
-}
 
 #######################################
 # Resources
@@ -52,7 +48,7 @@ data "azurerm_resource_group" "T-cloud-3" {
 }
 
 resource "azurerm_service_plan" "this" {
-  name                = "${var.global_prefix}-asp"
+  name                = "docker-popeye-asp"
   resource_group_name = var.resource_group_name
   location            = var.location
   tags                = var.tags
@@ -63,7 +59,7 @@ resource "azurerm_service_plan" "this" {
 
 
 resource "azurerm_linux_web_app" "docker-popeye-app-terraform" {
-  name                = "${var.global_prefix}-app-terraform"
+  name                = "docker-popeye-app-terraform"
   resource_group_name = var.resource_group_name
   location            = var.location
 
