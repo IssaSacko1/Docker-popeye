@@ -6,20 +6,20 @@ on:
       - main
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
+  terraform:
+    name: 'Terraform'
+    env:
+      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
+      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
+      runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash  
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-
-      - name: Login to Azure CLI
-        env:
-          ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-          ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-          ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-          ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-        runs-on: ubuntu-latest
 
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v1
