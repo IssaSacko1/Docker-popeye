@@ -15,6 +15,7 @@ jobs:
       ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
       ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
     runs-on: ubuntu-latest
+    
     defaults:
       run:
         shell: bash  
@@ -31,7 +32,7 @@ jobs:
         run: terraform init
 
       - name: Terraform Plan
-        run: terraform plan -out=tfplan
+        uses: hashicorp/terraform-github-actions@master
 
       - name: Terraform Apply
         run: terraform apply -auto-approve tfplan
