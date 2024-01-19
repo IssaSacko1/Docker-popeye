@@ -1,16 +1,13 @@
 version: "3"
 services:
   db:
-    image: postgres:13.0
+    image: issadocker123/docker-popeye-db:latest
     restart: always
     networks:
       - result-tier
       - back-tier
-    volumes:
-      - db-data:/var/lib/postgresql/data
-      - "./schema.sql:/docker-entrypoint-initdb.d/init.sql"
     environment:
-      - "POSTGRES_PASSWORD=password"
+      - POSTGRES_PASSWORD=password
 
   redis:
     image: redis
@@ -24,7 +21,7 @@ services:
       - back-tier
 
   poll:
-    build: ./poll
+    image: issadocker123/docker-popeye-poll:latest
     restart: always
     links:
       - redis
@@ -39,7 +36,7 @@ services:
       - FLASK_APP=app.py
 
   worker:
-    build: ./worker
+    image: issadocker123/docker-popeye-worker:latest
     restart: always
     networks:
       - back-tier
@@ -51,14 +48,14 @@ services:
       - redis
 
   result:
-    build: ./result
+    image: issadocker123/docker-popeye-result:latest
     restart: always
     ports:
-      - "5001:80"
+      - "443:443"
     networks:
       - result-tier
     environment:
-      - PORT_RESULT=80
+      - PORT_RESULT=443
       - DB_HOSTNAME_RESULT=db
     depends_on:
       - db
