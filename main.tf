@@ -18,7 +18,7 @@ provider "azurerm" {
 
 # provider "azapi" {}
 
-#######################################
+######################################
 # Variables
 
 variable "resource_group_name" {
