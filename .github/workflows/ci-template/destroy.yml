@@ -1,0 +1,16 @@
+name: Destroy Terraform Infrastructure
+
+runs:
+  shell: bash
+
+steps:
+  - name: Setup Terraform
+    uses: hashicorp/setup-terraform@v1
+    with:
+      terraform_version: 0.14.10
+
+  - name: Initialize Terraform
+    run: terraform init
+
+  - name: Destroy Terraform Infrastructure
+    run: terraform destroy -auto-approve

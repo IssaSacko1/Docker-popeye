@@ -23,25 +23,17 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-        with:
-          terraform_version: 0.14.10
+      - name: Validate Terraform Configuration
+        uses: ./ci-template/validate.yml
 
-      - name: Terraform Init
-        run: terraform init
+      - name: Plan Terraform Changes
+        uses: ./ci-template/plan.yml
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
-      - name: Terraform Plan
-        uses: hashicorp/terraform-github-actions@master
-        with:
-          tf_actions_version: 0.14.10
-          tf_actions_subcommand: 'plan'
-          tf_actions_working_dir: "."
+      - name: Apply Terraform Changes
+        uses: ./ci-template/apply.yml
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
-      - name: Terraform Apply
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Run only on main branch push events
-        run: terraform apply -auto-approve
-
-      - name: Terraform Destroy
-        if: github.event_name == 'pull_request' # Run on pull request events
-        run: terraform destroy -auto-approve
+      - name: Destroy Terraform Infrastructure
+        uses: ./ci-template/destroy.yml
+        if: github.event_name == 'pull_request'

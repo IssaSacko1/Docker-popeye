@@ -1,0 +1,13 @@
+stages:
+  - build
+
+variables:
+  IMAGE_NAME: your_image_name
+  IMAGE_TAG: latest
+
+build:
+  stage: build
+  script:
+    - docker build -t $IMAGE_NAME:$IMAGE_TAG .
+    - docker login -u $DOCKER_HUB_USERNAME -p $DOCKER_HUB_PASSWORD
+    - docker push $IMAGE_NAME:$IMAGE_TAG

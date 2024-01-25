@@ -1,0 +1,13 @@
+name: Apply Terraform Changes
+
+runs:
+  shell: bash
+
+steps:
+  - name: Setup Terraform
+    uses: hashicorp/setup-terraform@v1
+    with:
+      terraform_version: 0.14.10
+
+  - name: Apply Terraform Changes
+    run: terraform apply -auto-approve tfplan
