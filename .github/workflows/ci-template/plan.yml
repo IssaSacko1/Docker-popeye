@@ -9,6 +9,9 @@ steps:
     with:
       terraform_version: 0.14.10
 
+  - name: Checkout Repository
+    uses: actions/checkout@v2    
+
   - name: Initialize Terraform
     run: terraform init
 
