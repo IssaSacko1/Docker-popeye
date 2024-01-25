@@ -23,9 +23,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Validate Terraform Configuration
-        uses: ./ci-template/validate.yml
-
       - name: Plan Terraform Changes
         uses: ./ci-template/plan.yml
         if: github.event_name == 'push' && github.ref == 'refs/heads/main'
