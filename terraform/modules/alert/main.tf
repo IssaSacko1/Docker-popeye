@@ -1,3 +1,9 @@
+module "web_app" {
+  source              = "../web_app"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+}
+
 resource "azurerm_monitor_action_group" "email_action_group" {
   name                      = "email-action-group"
   short_name                = "exampleact"
@@ -13,7 +19,7 @@ resource "azurerm_monitor_action_group" "email_action_group" {
 resource "azurerm_monitor_metric_alert" "http_response_rate_alert" {
   name                = "http-response-rate-alert"
   resource_group_name = var.resource_group_name
-  scopes              = [azurerm_linux_web_app.docker-popeye-app-terraform.id]
+  scopes              = [module.web_app.web_app_id]
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"
@@ -31,7 +37,7 @@ resource "azurerm_monitor_metric_alert" "http_response_rate_alert" {
 resource "azurerm_monitor_metric_alert" "http_response_time_alert" {
   name                = "response-time-alert"
   resource_group_name = var.resource_group_name
-  scopes              = [azurerm_linux_web_app.docker-popeye-app-terraform.id]
+  scopes              = [module.web_app.web_app_id]
 
   criteria {
     metric_namespace = "Microsoft.Web/sites"

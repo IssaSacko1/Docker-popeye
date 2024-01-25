@@ -42,6 +42,7 @@ module "log_analytics" {
   source              = "./modules/log_analytics"
   resource_group_name = var.resource_group_name
   location            = var.location
+  storage_account_name = var.storage_account_name
 }
 
 module "alert" {

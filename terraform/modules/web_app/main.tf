@@ -1,3 +1,22 @@
+  terraform {
+  required_providers {
+    azurerm = {
+      source  = "hashicorp/azurerm"
+      version = "=3.75.0"
+    }
+    azapi = {
+      source  = "Azure/azapi"
+      version = "~> 1.7"
+    }
+  }
+}
+
+module "service_plan" {
+  source              = "../service_plan"
+  resource_group_name = var.resource_group_name
+  location            = var.location
+}
+
 resource "azurerm_linux_web_app" "docker-popeye-app-terraform" {
   name                = "docker-popeye-app-terraform"
   resource_group_name = var.resource_group_name
