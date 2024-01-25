@@ -1,0 +1,29 @@
+name: Docker Image CI/CD
+
+on:
+  push:
+    paths:
+      - './app/**' # Déclencher le workflow uniquement lorsque des modifications sont apportées dans le dossier 'app'
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Build Docker image
+      if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
+      working-directory: app
+      run: docker build -t my-docker-hub-username/my-image-name:latest .
+
+    - name: Login to Docker Hub
+      if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
+      run: echo "${{ secrets.DOCKER_HUB_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
+
+    - name: Push Docker image to Docker Hub
+      if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
+      run: docker push my-docker-hub-username/my-image-name:latest

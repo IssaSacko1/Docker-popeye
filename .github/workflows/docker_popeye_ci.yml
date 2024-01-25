@@ -41,6 +41,7 @@ jobs:
 
       - name: Terraform Apply
         if: github.event_name == 'push' && github.ref == 'refs/heads/main' # Run only on main branch push events
+        working-directory: ./terraform
         run: terraform apply -auto-approve
 
       - name: Terraform Destroy
