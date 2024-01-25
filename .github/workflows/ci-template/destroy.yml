@@ -9,8 +9,5 @@ steps:
     with:
       terraform_version: 0.14.10
 
-  - name: Initialize Terraform
-    run: terraform init
-
   - name: Destroy Terraform Infrastructure
     run: terraform destroy -auto-approve

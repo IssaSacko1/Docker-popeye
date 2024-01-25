@@ -1,36 +1,7 @@
-name: Terraform Deployment
+stages:
+  - terraform
+  - destroy
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:     
+include:
+  - 'ci-templates/terraform.yml'
 
-jobs:
-  terraform:
-    name: 'Terraform'
-    env:
-      ARM_CLIENT_ID: ${{ secrets.ARM_CLIENT_ID }}
-      ARM_CLIENT_SECRET: ${{ secrets.ARM_CLIENT_SECRET }}
-      ARM_TENANT_ID: ${{ secrets.ARM_TENANT_ID }}
-      ARM_SUBSCRIPTION_ID: ${{ secrets.ARM_SUBSCRIPTION_ID }}
-    runs-on: ubuntu-latest
-    environment: Development
-    defaults:
-      run:
-        shell: bash  
-    steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
-
-      - name: Plan Terraform Changes
-        uses: ./ci-template/plan.yml
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-      - name: Apply Terraform Changes
-        uses: ./ci-template/apply.yml
-        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-
-      - name: Destroy Terraform Infrastructure
-        uses: ./ci-template/destroy.yml
-        if: github.event_name == 'pull_request'
