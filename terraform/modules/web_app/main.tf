@@ -17,8 +17,8 @@ module "service_plan" {
   location            = var.location
 }
 
-resource "azurerm_linux_web_app" "docker-popeye-app-terraform" {
-  name                = "docker-popeye-app-terraform"
+resource "azurerm_linux_web_app" "docker-popeye-app-production" {
+  name                = "docker-popeye-app-production"
   resource_group_name = var.resource_group_name
   location            = var.location
 
