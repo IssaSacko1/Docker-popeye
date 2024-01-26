@@ -22,7 +22,7 @@ jobs:
     - name: Build result Docker image
       if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
       working-directory: app/result
-      run: docker build -t issadocker123/docker-popeye-worker:latest-gitlab .
+      run: docker build -t issadocker123/docker-popeye-result:latest-gitlab .
 
     - name: Build worker Docker image
       if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
@@ -46,4 +46,4 @@ jobs:
 
     - name: Push worker Docker image to Docker Hub
       if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
-      run: docker push issadocker123/docker-popeye-result:latest-gitlab      
+      run: docker push issadocker123/docker-popeye-worker:latest-gitlab      
