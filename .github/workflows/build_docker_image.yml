@@ -2,8 +2,8 @@ name: Docker Image CI/CD
 
 on:
   push:
-    paths:
-      - './app/**' # Déclencher le workflow uniquement lorsque des modifications sont apportées dans le dossier 'app'
+    # paths:
+    #   - './app/**' # Déclencher le workflow uniquement lorsque des modifications sont apportées dans le dossier 'app'
     branches:
       - main
 
