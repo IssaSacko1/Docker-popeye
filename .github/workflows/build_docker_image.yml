@@ -19,12 +19,12 @@ jobs:
       working-directory: app/poll
       run: docker build -t issadocker123/docker-popeye-poll:latest-gitlab .
 
-      - name: Build result Docker image
+    - name: Build result Docker image
       if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
       working-directory: app/result
-      run: docker build -t issadocker123/docker-popeye-result:latest-gitlab .
+      run: docker build -t issadocker123/docker-popeye-worker:latest-gitlab .
 
-      - name: Build worker Docker image
+    - name: Build worker Docker image
       if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
       working-directory: app/worker
       run: docker build -t issadocker123/docker-popeye-worker:latest-gitlab .
