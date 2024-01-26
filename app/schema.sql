@@ -5,4 +5,4 @@ CREATE TABLE IF NOT EXISTS votes
   vote text NOT NULL
 );
 
--- test
+-- tes
