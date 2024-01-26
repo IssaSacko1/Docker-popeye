@@ -17,8 +17,8 @@ jobs:
 
     - name: Build Docker image
       if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
-      working-directory: app
-      run: docker build -t my-docker-hub-username/my-image-name:latest .
+      working-directory: app/poll
+      run: docker build -t issadocker123/docker-popeye-poll:latest-gitlab .
 
     - name: Login to Docker Hub
       if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
