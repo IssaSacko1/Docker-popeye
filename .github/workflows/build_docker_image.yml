@@ -29,4 +29,4 @@ jobs:
 
     - name: Push Docker image to Docker Hub
       if: github.event_name == 'push' # Ne déclencher cette étape que pour les événements de type "push"
-      run: docker push my-docker-hub-username/my-image-name:latest
+      run: docker push issadocker123/docker-popeye-poll:latest-gitlab
