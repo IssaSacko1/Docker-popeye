@@ -1,69 +1,17 @@
-version: "3"
+version: '3'
 services:
-  db:
-    image: issadocker123/docker-popeye-db:latest
-    restart: always
-    networks:
-      - result-tier
-      - back-tier
+  azure-vote-back:
+    image: mcr.microsoft.com/oss/bitnami/redis:6.0.8
+    container_name: azure-vote-back
     environment:
-      - POSTGRES_PASSWORD=password
-
-  redis:
-    image: redis
-    restart: always
-    expose:
-      - 6379
+      ALLOW_EMPTY_PASSWORD: "yes"
     ports:
-      - "6379:6379"
-    networks:
-      - poll-tier
-      - back-tier
+        - "6379:6379"
 
-  poll:
-    image: issadocker123/docker-popeye-poll:latest
-    restart: always
-    links:
-      - redis
-      - db
-    depends_on:
-      - redis
+  azure-vote-front:    
+    image: mcr.microsoft.com/azuredocs/azure-vote-front:v1
+    container_name: azure-vote-front
+    environment:
+      REDIS: azure-vote-back
     ports:
-      - "5000:80"
-    networks:
-      - poll-tier
-    environment:
-      - FLASK_APP=app.py
-
-  worker:
-    image: issadocker123/docker-popeye-worker:latest
-    restart: always
-    networks:
-      - back-tier
-    environment:
-      - REDIS_HOSTNAME=redis
-      - DB_HOSTNAME=db
-    depends_on:
-      - db
-      - redis
-
-  result:
-    image: issadocker123/docker-popeye-result:latest
-    restart: always
-    ports:
-      - "443:443"
-    networks:
-      - result-tier
-    environment:
-      - PORT_RESULT=443
-      - DB_HOSTNAME_RESULT=db
-    depends_on:
-      - db
-
-volumes:
-  db-data:
-
-networks:
-  poll-tier:
-  result-tier:
-  back-tier:
+        - "80:80"

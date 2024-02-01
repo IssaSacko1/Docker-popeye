@@ -18,6 +18,10 @@ provider "azurerm" {
 
 # provider "azapi" {}
 
+data "azurerm_resource_group" "T-CLO-ISA-test-environment" {
+  name     = var.resource_group_name
+}
+
 module "storage_account" {
   source              = "./modules/storage_account"
   resource_group_name = var.resource_group_name
@@ -38,12 +42,12 @@ module "web_app" {
   location            = var.location
 }
 
-module "log_analytics" {
-  source              = "./modules/log_analytics"
-  resource_group_name = var.resource_group_name
-  location            = var.location
-  storage_account_name = var.storage_account_name
-}
+# module "log_analytics" {
+#  source              = "./modules/log_analytics"
+#  resource_group_name = var.resource_group_name
+#  location            = var.location
+#  storage_account_name = var.storage_account_name
+#}
 
 module "alert" {
   source              = "./modules/alert"
