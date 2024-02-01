@@ -17,8 +17,8 @@ module "service_plan" {
   location            = var.location
 }
 
-data "azurerm_linux_web_app" "docker-popeye-app-test" {
-  name                = "docker-popeye-app-test"
+data "azurerm_linux_web_app" "docker-popeye-app-development" {
+  name                = "docker-popeye-app-development"
   resource_group_name = var.resource_group_name
   location            = var.location
 
@@ -47,7 +47,7 @@ data "azurerm_linux_web_app" "docker-popeye-app-test" {
 # See: https://github.com/hashicorp/terraform-provider-azurerm/issues/16290
 
 resource "azapi_update_resource" "update_linux_web_app" {
-  resource_id = azurerm_linux_web_app.docker-popeye-app-test.id
+  resource_id = azurerm_linux_web_app.docker-popeye-app-development.id
   type        = "Microsoft.Web/sites@2022-03-01"
   body = jsonencode({
     properties = {

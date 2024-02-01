@@ -1,5 +1,5 @@
-resource "azurerm_service_plan" "service_plan_test" {
-  name                = "docker-popeye-asp-test"
+resource "azurerm_service_plan" "service_plan_development" {
+  name                = "docker-popeye-asp-development"
   resource_group_name = var.resource_group_name
   location            = var.location
   tags                = var.tags

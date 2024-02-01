@@ -6,8 +6,8 @@ resource "azurerm_storage_account" "sadockerpopeye901prod" {
   account_replication_type = "LRS"
 }
 
-resource "azurerm_storage_account" "sadockerpopeye901" {
-  resource_group_name = "T-CLO-ISA-test-environment"
+resource "azurerm_storage_account" "sadockerpopeye901dev" {
+  resource_group_name = "T-CLO-ISA-development-environment"
   name = "sadockerpopeye901"
   location                 = var.location
   account_tier             = "Standard"

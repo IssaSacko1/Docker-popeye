@@ -4,8 +4,8 @@ module "web_app" {
   location            = var.location
 }
 
-resource "azurerm_monitor_action_group" "email_action_group_test" {
-  name                      = "email-action-group-test"
+resource "azurerm_monitor_action_group" "email_action_group_development" {
+  name                      = "email-action-group-development"
   short_name                = "exampleact"
   resource_group_name = var.resource_group_name
 
@@ -17,8 +17,8 @@ resource "azurerm_monitor_action_group" "email_action_group_test" {
 
 
 # Créer une alerte pour le taux de réponse HTTP
-resource "azurerm_monitor_metric_alert" "http_response_rate_alert-test" {
-  name                = "http-response-rate-alert-test"
+resource "azurerm_monitor_metric_alert" "http_response_rate_alert-development" {
+  name                = "http-response-rate-alert-development"
   resource_group_name = var.resource_group_name
   scopes              = [module.web_app.web_app_id]
 
@@ -31,12 +31,12 @@ resource "azurerm_monitor_metric_alert" "http_response_rate_alert-test" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.email_action_group_test.id
+    action_group_id = azurerm_monitor_action_group.email_action_group_development.id
   }
 }
 
-resource "azurerm_monitor_metric_alert" "http_response_time_alert_test" {
-  name                = "response-time-alert-test"
+resource "azurerm_monitor_metric_alert" "http_response_time_alert_development" {
+  name                = "response-time-alert-develop"
   resource_group_name = var.resource_group_name
   scopes              = [module.web_app.web_app_id]
 
@@ -49,6 +49,6 @@ resource "azurerm_monitor_metric_alert" "http_response_time_alert_test" {
   }
 
   action {
-    action_group_id = azurerm_monitor_action_group.test.id
+    action_group_id = azurerm_monitor_action_group.develop.id
   }
 }
