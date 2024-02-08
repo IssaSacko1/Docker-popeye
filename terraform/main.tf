@@ -18,7 +18,7 @@ provider "azurerm" {
 
 # provider "azapi" {}
 
-data "azurerm_resource_group" "T-CLO-ISA-test-environment" {
+data "azurerm_resource_group" "T-CLO-ISA-development-environment" {
   name     = var.resource_group_name
 }
 
